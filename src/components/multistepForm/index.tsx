@@ -1,103 +1,104 @@
-import React, { useState } from "react";
-import * as yup from "yup";
-import { Formik, Form, Field, FormikValues, FormikConfig } from "formik";
-import { Checkbox, FormControlLabel } from "@material-ui/core";
-import Container from "@material-ui/core/Container";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import React from 'react';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
+import StepOne from './stepOne/index'
+import StepTwo from './stepTwo/index'
+import FinalStep from './finalStep/index'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+  wrapper: {
+    textAlign: "center"
   },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
+  mainHeading: {
+    fontSize: "5vh",
+    textShadow : "5px 10px 10px grey",
+    marginBottom:"8vh"
   },
-}));
+  formWrapper:{
+  display: "flex",
+  flexDirection: "column",
+  flexWrap: "wrap",
+  margin: "0 auto",
+  padding: "3vh"
+  },
+ 
+  }),
+);
 
+export interface savedValues {
+  firstName: string,
+  lastName: string,
+  email: string,
+  phoneNumber: number,
+  city: string
+  occupation: string,
+  cnicNo: number,
 
-let schema = yup.object({
-  firstName: yup
-    .string()
-    .required("This field is required")
-    .max(20, "Name should not be more than 20 characters"),
-  lastName: yup
-    .string()
-    .required("This field is required")
-    .max(20, "Name should not be more than 20 characters"),
-  phoneNumber: yup
-    .number()
-    .required("This field is required")
-    .min(11, "Phone number should not be more than 11 characters")
-    .max(11, "Phone number should not be more than 11 characters"),
-});
-
-interface Value {
-  firstName: string;
-  lastName: string;
-  phoneNumber: number;
-  CnicNo: number;
-  agreeTrems: boolean;
-  city: string;
-  occupation: string;
-  email: string;
 }
-let initialValues: Value = {
-  firstName: "",
-  lastName: "",
-  phoneNumber: 0,
-  CnicNo: 0,
-  agreeTrems: false,
-  city: "",
-  occupation: "",
-  email: "",
-};
 
-export default function StepOne() {
+function getSteps() {
+  return ['User Information', 'Personal Details', 'Review your Information'];
+}
+
+
+export default function MultiStep() {
   const classes = useStyles();
+  const [activeStep, setActiveStep] = React.useState(0);
+  const steps = getSteps();
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+
+  
+  const savedValues = React.useState({firstName:'', lastName: '', email: '', phone: '', city: '', area: '', package: "5 Mbps", amount: 0})
+  console.log(savedValues[0]);
+
+
+  function getStepContent(stepIndex: number) {
+    switch (stepIndex) {
+      case 0:
+        return <StepOne savedValues = {savedValues} handleNext = {handleNext}></StepOne>
+      case 1:
+        return <StepTwo savedValues = {savedValues} handleNext = {handleNext} handleBack = {handleBack} ></StepTwo>
+      case 2:
+        return <FinalStep savedValues = {savedValues} handleBack = {handleBack} ></FinalStep>
+      default:
+        return 'ERROR';
+    }
+  }
+
+
+
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <Container>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={schema}
-          onSubmit={() => {}}
-        >
-          {({ errors, touched }) => (
-            <Form>
-              <div>
-                <div>
-                  <p>
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's
-                    standard dummy text ever since the 1500s, when an unknown
-                    printer took a galley of type and scrambled it to make a
-                    type specimen book. It has survived not only five centuries,
-                    but also the leap into electronic typesetting, remaining
-                    essentially unchanged. It was popularised in the 1960s with
-                    the release of Letraset sheets containing Lorem Ipsum
-                    passages, and more recently with desktop publishing software
-                    like Aldus PageMaker including versions of Lorem Ipsum.
-                  </p>
-                </div>
-                <div>
-                  <FormControlLabel
-                    control={
-                      <Field as={Checkbox} type="checkbox" name="agreeTrems" />
-                    }
-                    label="I accept Terms and condtion"
-                  />
-                </div>
-              </div>
-            </Form>
-          )}
-        </Formik>
-      </Container>
+    <div className ={classes.wrapper} >
+      <h1 className = {classes.mainHeading}>Buy an Internet Plan</h1>
+
+      <Stepper activeStep={activeStep} alternativeLabel>
+        {steps.map((label) => (
+          <Step key={label}>
+            <StepLabel>{label}</StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+    
+      <div  className = {classes.formWrapper} >
+        
+          <div>
+            {getStepContent(activeStep)}
+          </div>
+      </div>
+     
     </div>
+  
   );
 }

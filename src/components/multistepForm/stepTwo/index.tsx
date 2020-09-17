@@ -1,10 +1,16 @@
-import React from 'react'
+import React from "react";
 
-
-export default function StepTwo(){
-    return(
-        <div>
-            <h1>StepTwo</h1>
-        </div>
-    )
+interface props {
+  savedValues: [savedValues, React.Dispatch<React.SetStateAction<savedValues>>];
+  handleNext: () => void;
+  handleBack: () => void;
 }
+
+const StepTwo: React.FC<props> = ({ savedValues, handleNext, handleBack }) => {
+  return (
+    <div>
+      <h1>StepTwo</h1>
+    </div>
+  );
+};
+export default StepTwo;
