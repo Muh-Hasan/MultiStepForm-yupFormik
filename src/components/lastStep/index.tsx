@@ -17,10 +17,10 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "0 auto",
       padding: "4vh",
       borderStyle: "solid",
-      borderColor: "grey",
     },
     headings: {
-      textDecoration: "underline",
+      textTransform: "uppercase",
+      letterSpacing: "2px",
     },
 
     infoFields: {
@@ -30,7 +30,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     fieldTitles: {
       width: "12vh",
-      fontWeight: "bold",
+      fontWeight: 600,
+      textTransform: "uppercase",
     },
 
     fieldInfo: {
@@ -40,15 +41,17 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     button: {
       backgroundColor: "black",
-      width: "10vh",
-      fontSize: "2vh",
+      width: "100px",
+      fontSize: "14px",
       color: "white",
       margin: "0 auto",
       marginTop: "3vh",
-
-      "&:hover": {
-        backgroundColor: "darkGrey",
-      },
+      height: "30px",
+      letterSpacing: "2px",
+      fontWeight: 500,
+      border: "none",
+      textTransform: "uppercase",
+      cursor: "pointer",
     },
     buttonsWrapper: {
       display: "flex",
@@ -66,7 +69,7 @@ const LastStep: React.FC<props> = ({ savedValues, handleBack }) => {
 
   return (
     <div className={classes.wrapper}>
-      <h2 className={classes.headings}>Personal Information</h2>
+      <h2 className={classes.headings}>Details</h2>
       <p className={classes.infoFields}>
         <span className={classes.fieldTitles}>Name: </span>{" "}
         <span className={classes.fieldInfo}>
@@ -82,17 +85,11 @@ const LastStep: React.FC<props> = ({ savedValues, handleBack }) => {
         <span className={classes.fieldInfo}>{savedValues[0].phoneNumber}</span>
       </p>
       <p className={classes.infoFields}>
-        <span className={classes.fieldTitles}>City: </span>{" "}
-        <span className={classes.fieldInfo}>{savedValues[0].cnicNo}</span>
-      </p>
-      <p className={classes.infoFields}>
         <span className={classes.fieldTitles}>Area: </span>{" "}
         <span className={classes.fieldInfo}>{savedValues[0].occupation}</span>
       </p>
-
-      <h2 className={classes.headings}>Plan Details</h2>
       <p className={classes.infoFields}>
-        <span className={classes.fieldTitles}>Package: </span>{" "}
+        <span className={classes.fieldTitles}>City: </span>{" "}
         <span className={classes.fieldInfo}>{savedValues[0].city}</span>
       </p>
       <div className={classes.buttonsWrapper}>

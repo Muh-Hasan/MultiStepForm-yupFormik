@@ -34,7 +34,6 @@ export interface savedValues {
   phoneNumber: string;
   city: string;
   occupation: string;
-  cnicNo: string;
 }
 
 function getSteps() {
@@ -65,7 +64,6 @@ function App() {
     phoneNumber: "",
     city: "",
     occupation: "",
-    cnicNo: "",
   });
 
   function getStepContent(stepIndex: number) {

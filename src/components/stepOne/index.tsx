@@ -20,22 +20,23 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "0 auto",
       padding: "4vh",
       borderStyle: "solid",
-      borderColor: "grey",
     },
     fields: {
       marginBottom: "2vh",
     },
     button: {
       backgroundColor: "black",
-      width: "10vh",
-      fontSize: "2vh",
+      width: "100px",
+      fontSize: "14px",
       color: "white",
       margin: "0 auto",
       marginTop: "3vh",
-
-      "&:hover": {
-        backgroundColor: "darkGrey",
-      },
+      height: "30px",
+      letterSpacing: "2px",
+      fontWeight: 500,
+      border: "none",
+      textTransform: "uppercase",
+      cursor: "pointer",
     },
   })
 );

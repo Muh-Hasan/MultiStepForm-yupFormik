@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "0 auto",
       padding: "4vh",
       borderStyle: "solid",
-      borderColor: "grey",
     },
     innerWrapper: {
       margin: "0 auto",
@@ -39,15 +38,17 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     buttons: {
       backgroundColor: "black",
-      width: "10vh",
-      fontSize: "2vh",
+      width: "100px",
+      fontSize: "14px",
       color: "white",
       margin: "0 auto",
       marginTop: "3vh",
-
-      "&:hover": {
-        backgroundColor: "darkGrey",
-      },
+      height: "30px",
+      letterSpacing: "2px",
+      fontWeight: 500,
+      border: "none",
+      textTransform: "uppercase",
+      cursor: "pointer",
     },
   })
 );
@@ -59,7 +60,6 @@ const StepTwo: React.FC<props> = ({ savedValues, handleNext, handleBack }) => {
     <Formik
       initialValues={{
         phoneNumber: savedValues[0].phoneNumber,
-        cnicNo: savedValues[0].cnicNo,
         occupation: savedValues[0].occupation,
         city: savedValues[0].city,
       }}
@@ -67,32 +67,23 @@ const StepTwo: React.FC<props> = ({ savedValues, handleNext, handleBack }) => {
         phoneNumber: yup
           .string()
           .required("This field is required")
-          .matches(
-            /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
-            "Number is not valid"
-          ),
-        CnicNo: yup
-          .string()
-          .required("This field is required")
-          .min(14, "Phone number should not be more than 11 characters")
-          .max(14, "Phone number should not be more than 11 characters"),
+          .max(11, "Phone number should not be more than 11 characters"),
         city: yup.string().required("This field is required"),
         occupation: yup.string().required("This field is required"),
       })}
       onSubmit={(values) => {
-        console.log(values)
-        // savedValues[1]({
-        //   ...savedValues[0],
-        //   phoneNumber: values.phoneNumber,
-        //   cnicNo: values.cnicNo,
-        //   occupation: values.occupation,
-        //   city: values.city,
-        // });
+        console.log(values);
+        savedValues[1]({
+          ...savedValues[0],
+          phoneNumber: values.phoneNumber,
+          occupation: values.occupation,
+          city: values.city,
+        });
         handleNext();
       }}
     >
       {(formik) => (
-        <Form className={classes.wrapper}>
+        <Form className={classes.wrapper} autoComplete="off">
           <Field
             error={formik.errors.phoneNumber && formik.touched.phoneNumber}
             className={classes.fields}
@@ -100,14 +91,6 @@ const StepTwo: React.FC<props> = ({ savedValues, handleNext, handleBack }) => {
             as={TextField}
             label="Phone Number"
             helperText={<ErrorMessage name="phoneNumber" />}
-          />
-          <Field
-            error={formik.errors.cnicNo && formik.touched.cnicNo}
-            className={classes.fields}
-            name="cnicNo"
-            as={TextField}
-            label="CNIC Number"
-            helperText={<ErrorMessage name="cnicNo" />}
           />
           <Field
             error={formik.errors.occupation && formik.touched.occupation}

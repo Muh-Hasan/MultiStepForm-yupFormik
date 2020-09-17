@@ -1,0 +1,12 @@
+*{
+    margin: 0;
+}
+.heading h1{
+    text-transform: uppercase;
+    font-size: 23px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+.heading{
+    text-align: center;
+}
