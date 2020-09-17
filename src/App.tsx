@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.css';
-import { MultiForm } from './components/multistepForm/index'
+import StepOne from './components/multistepForm/index'
 
 function App() {
   return (
     <div className='main-app'>
       <div className='main-app-2'>
-        <MultiForm />
+        <StepOne />
       </div>
     </div>
   );
