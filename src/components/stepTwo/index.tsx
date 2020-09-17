@@ -80,13 +80,14 @@ const StepTwo: React.FC<props> = ({ savedValues, handleNext, handleBack }) => {
         occupation: yup.string().required("This field is required"),
       })}
       onSubmit={(values) => {
-        savedValues[1]({
-          ...savedValues[0],
-          phoneNumber: values.phoneNumber,
-          cnicNo: values.cnicNo,
-          occupation: values.occupation,
-          city: values.city,
-        });
+        console.log(values)
+        // savedValues[1]({
+        //   ...savedValues[0],
+        //   phoneNumber: values.phoneNumber,
+        //   cnicNo: values.cnicNo,
+        //   occupation: values.occupation,
+        //   city: values.city,
+        // });
         handleNext();
       }}
     >

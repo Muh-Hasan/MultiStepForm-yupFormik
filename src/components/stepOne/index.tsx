@@ -74,7 +74,6 @@ const StepOne: React.FC<props> = ({ savedValues, handleNext }) => {
       }}
     >
       {(formik) => {
-        console.log(formik.errors.lastName);
         return (
           <Form className={classes.wrapper} autoComplete="off">
             <Field
