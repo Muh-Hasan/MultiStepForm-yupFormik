@@ -1,100 +1,146 @@
-import React from 'react';
- import {savedValues} from '../../App'
- import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import React from "react";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import * as yup from "yup";
+import { savedValues } from "../index";
+import TextField from "@material-ui/core/TextField";
+import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
-
- interface props{
-
-    savedValues: [savedValues, React.Dispatch<React.SetStateAction<savedValues>>],
-    handleBack: () => void
+interface props {
+  savedValues: [savedValues, React.Dispatch<React.SetStateAction<savedValues>>];
+  handleNext: () => void;
+  handleBack: () => void;
 }
-
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-  wrapper: {
-    display: "flex",
-    flexDirection: "column",
-    flexWrap: "wrap",
-    width: "40vh",
-    margin: "0 auto",
-    padding: "4vh",
-    borderStyle: "solid",
-    borderColor: "grey"
-  
-  },
-  headings:{
-      textDecoration: "underline"
-  },
-
-  infoFields: {
-      display:"flex",
-      flexDirection: "row",
-      justifyContent: "flex-start",
-      
-  },
-  fieldTitles:{
-      width:"12vh",
-      fontWeight: "bold"
-  },
-
-  fieldInfo:{
-      width:"25vh",
-      overflow: "auto",
-      textAlign: "left"
-  },
-  button: {
-    backgroundColor: "black",
-    width: "10vh",
-    fontSize: "2vh",
-    color: "white",
-    margin:"0 auto",
-    marginTop: "3vh",
-
-    '&:hover': {
-      backgroundColor: "darkGrey"
+    wrapper: {
+      display: "flex",
+      flexDirection: "column",
+      flexWrap: "wrap",
+      width: "40vh",
+      margin: "0 auto",
+      padding: "4vh",
+      borderStyle: "solid",
+      borderColor: "grey",
     },
-    
-  },
-  buttonsWrapper: {
+    innerWrapper: {
+      margin: "0 auto",
+    },
 
-    display: "flex",
-    flexDirection: "row",
-    marginRight: "2vh",
-    marginLeft: "2vh"
-  },
-  
+    buttonsWrapper: {
+      display: "flex",
+      flexDirection: "row",
+      marginRight: "2vh",
+      marginLeft: "2vh",
+    },
 
- 
-  }),
+    fields: {
+      marginBottom: "2vh",
+    },
+    buttons: {
+      backgroundColor: "black",
+      width: "10vh",
+      fontSize: "2vh",
+      color: "white",
+      margin: "0 auto",
+      marginTop: "3vh",
+
+      "&:hover": {
+        backgroundColor: "darkGrey",
+      },
+    },
+  })
 );
 
+const StepTwo: React.FC<props> = ({ savedValues, handleNext, handleBack }) => {
+  const classes = useStyles();
 
- const Review:React.FC<props> = ({savedValues, handleBack}) => {
-    const classes = useStyles();
+  return (
+    <Formik
+      initialValues={{
+        phoneNumber: savedValues[0].phoneNumber,
+        cnicNo: savedValues[0].cnicNo,
+        occupation: savedValues[0].occupation,
+        city: savedValues[0].city,
+      }}
+      validationSchema={yup.object({
+        phoneNumber: yup
+          .string()
+          .required("This field is required")
+          .matches(
+            /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
+            "Number is not valid"
+          ),
+        CnicNo: yup
+          .string()
+          .required("This field is required")
+          .min(14, "Phone number should not be more than 11 characters")
+          .max(14, "Phone number should not be more than 11 characters"),
+        city: yup.string().required("This field is required"),
+        occupation: yup.string().required("This field is required"),
+      })}
+      onSubmit={(values) => {
+        savedValues[1]({
+          ...savedValues[0],
+          phoneNumber: values.phoneNumber,
+          cnicNo: values.cnicNo,
+          occupation: values.occupation,
+          city: values.city,
+        });
+        handleNext();
+      }}
+    >
+      {(formik) => (
+        <Form className={classes.wrapper}>
+          <Field
+            error={formik.errors.phoneNumber && formik.touched.phoneNumber}
+            className={classes.fields}
+            name="phoneNumber"
+            as={TextField}
+            label="Phone Number"
+            helperText={<ErrorMessage name="phoneNumber" />}
+          />
+          <Field
+            error={formik.errors.cnicNo && formik.touched.cnicNo}
+            className={classes.fields}
+            name="cnicNo"
+            as={TextField}
+            label="CNIC Number"
+            helperText={<ErrorMessage name="cnicNo" />}
+          />
+          <Field
+            error={formik.errors.occupation && formik.touched.occupation}
+            className={classes.fields}
+            name="occupation"
+            as={TextField}
+            label="Occupation"
+            helperText={<ErrorMessage name="occupation" />}
+          />
+          <Field
+            error={formik.errors.city && formik.touched.city}
+            className={classes.fields}
+            name="city"
+            as={TextField}
+            label="City"
+            helperText={<ErrorMessage name="city" />}
+          />
+          <div className={classes.buttonsWrapper}>
+            <button
+              className={classes.buttons}
+              type="button"
+              onClick={handleBack}
+            >
+              Back
+            </button>
 
-console.log(savedValues[0])
+            <button className={classes.buttons} type="submit">
+              Next
+            </button>
+          </div>
+        </Form>
+      )}
+    </Formik>
+  );
+};
 
-   return (
-    <div className = {classes.wrapper}>
-    <h2 className= {classes.headings}>Personal Information</h2>
-    <p className = {classes.infoFields} ><span className = {classes.fieldTitles} >Name: </span> <span className = {classes.fieldInfo}>{savedValues[0].firstName} {savedValues[0].lastName}</span></p>
-    <p className = {classes.infoFields} ><span  className = {classes.fieldTitles} >Email: </span> <span className = {classes.fieldInfo} >{savedValues[0].email}</span></p>
-    <p className = {classes.infoFields} ><span  className = {classes.fieldTitles} >Phone: </span> <span className = {classes.fieldInfo} >{savedValues[0].phone}</span></p>
-    <p className = {classes.infoFields} ><span  className = {classes.fieldTitles} >City: </span> <span className = {classes.fieldInfo} >{savedValues[0].city}</span></p>
-    <p className = {classes.infoFields} ><span  className = {classes.fieldTitles} >Area: </span> <span className = {classes.fieldInfo} >{savedValues[0].area}</span></p>
-
-    <h2 className= {classes.headings}>Plan Details</h2>
-    <p className = {classes.infoFields} ><span  className = {classes.fieldTitles} >Package: </span> <span className = {classes.fieldInfo} >{savedValues[0].package}</span></p>
-    <p className = {classes.infoFields}><span  className = {classes.fieldTitles} > Amount: </span> <span className = {classes.fieldInfo} >${savedValues[0].amount}</span></p>
-    <div className = {classes.buttonsWrapper}>
-
-   <button className = {classes.button} onClick = {handleBack}>Back</button>
-   <button className = {classes.button} onClick = {()=>{alert("Thank you for submitting the form")}}>Submit</button>
-
-</div>
-   </div>
-   )
- };
-
- export default Review;
+export default StepTwo;

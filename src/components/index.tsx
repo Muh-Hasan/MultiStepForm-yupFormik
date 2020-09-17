@@ -5,7 +5,7 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import StepOne from "./stepOne/index";
 import StepTwo from "./stepTwo/index";
-import FinalStep from "./finalStep/index";
+import LastStep from "./lastStep/index";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,10 +31,10 @@ export interface savedValues {
   firstName: string;
   lastName: string;
   email: string;
-  phoneNumber: number;
+  phoneNumber: string;
   city: string;
   occupation: string;
-  cnicNo: number;
+  cnicNo: string;
 }
 
 function getSteps() {
@@ -62,20 +62,17 @@ function App() {
     firstName: "",
     lastName: "",
     email: "",
-    phoneNumber: 0,
+    phoneNumber: "",
     city: "",
     occupation: "",
-    cnicNo: 0,
+    cnicNo: "",
   });
 
   function getStepContent(stepIndex: number) {
     switch (stepIndex) {
       case 0:
         return (
-          <StepOne
-            savedValues={savedValues}
-            handleNext={handleNext}
-          ></StepOne>
+          <StepOne savedValues={savedValues} handleNext={handleNext}></StepOne>
         );
       case 1:
         return (
@@ -87,7 +84,10 @@ function App() {
         );
       case 2:
         return (
-          <FinalStep savedValues={savedValues} handleBack={handleBack}></FinalStep>
+          <LastStep
+            savedValues={savedValues}
+            handleBack={handleBack}
+          ></LastStep>
         );
       default:
         return "ERROR";
