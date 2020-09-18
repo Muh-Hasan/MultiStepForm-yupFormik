@@ -85,7 +85,7 @@ const LastStep: React.FC<props> = ({ savedValues, handleBack }) => {
         <span className={classes.fieldInfo}>{savedValues[0].phoneNumber}</span>
       </p>
       <p className={classes.infoFields}>
-        <span className={classes.fieldTitles}>Area: </span>{" "}
+        <span className={classes.fieldTitles}>Occupation: </span>{" "}
         <span className={classes.fieldInfo}>{savedValues[0].occupation}</span>
       </p>
       <p className={classes.infoFields}>
